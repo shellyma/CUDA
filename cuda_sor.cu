@@ -25,10 +25,10 @@ __global__ void kernel_sor(float *d_A, float *d_B) {
     // checkboundaries
     for(iter =1; iter <LOOP; iter++){
 if((row_thread_x > 0) && (row_thread_y > 0) && (row_thread_x < ARR_LEN-1) && (row_thread_y < ARR_LEN-1))
-        d_B[index] = (d_A[index-1]
+        d_B[index] = d_A[index-1]
 		   + d_A[index+1]
 		   + d_A[index+ARR_LEN]
-		   + d_A[index-ARR_LEN])/4;
+		   + d_A[index-ARR_LEN];
 	__syncthreads();   
 	}
 
@@ -60,7 +60,7 @@ main (int argc, char **argv) {
    for(iter=1;iter<LOOP;iter++){
       for(i=1;i<ARR_LEN-1;i++) {
         for(j=1;j<ARR_LEN-1;j++) {
-            B[i][j] = (A[i-1][j]+A[i+1][j]+A[i][j-1]+A[i][j+1])/4;
+            B[i][j] = A[i-1][j]+A[i+1][j]+A[i][j-1]+A[i][j+1];
         }
       }
     }
